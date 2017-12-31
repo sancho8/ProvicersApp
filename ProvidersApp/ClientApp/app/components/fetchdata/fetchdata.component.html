@@ -1,0 +1,78 @@
+<h1>Providers list</h1>
+
+
+<p *ngIf="!providers"><em>Loading...</em></p>
+
+<table class='table' *ngIf="providers">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Provider</th>
+            <th></th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let p of providers">
+            <td>{{ p.id }}</td>
+            <td>{{ p.provider }}</td>
+            <td>
+                <button class="btn btn-primary" data-toggle="modal" data-target="#ProviderModal" (click)="bufProvider = p; formMode='edit'">
+                   <span class="glyphicon glyphicon-edit"></span> Edit 
+                </button>
+            </td>
+            <td>
+                <button class="btn btn-danger" (click)="removeProvider(p)">
+                   <span class="glyphicon glyphicon-remove"></span> Remove 
+                </button>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<button type="button" class="btn btn-primary" (click)="formMode='add'" data-toggle="modal" data-target="#ProviderModal">
+    <span class="glyphicon glyphicon-plus"></span> Add new provider
+</button>
+
+<div class="modal fade" id="ProviderModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <form>
+                <div class="modal-header">
+                    <label class="modal-label" style="font-size: 16px" 
+                           *ngIf="formMode=='add'">Add Provider</label>
+                    <label class="modal-label" style="font-size: 16px" 
+                           *ngIf="formMode=='edit'">Edit Provider</label>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="idinput">Enter ID:</label>
+                        <input type="text" *ngIf="formMode=='add'" class="form-control" placeholder="123" required id="idinput"
+                               [(ngModel)]="bufProvider.id" [ngModelOptions]="{standalone: true}">
+                        <input type="text" *ngIf="formMode=='edit'" class="form-control" placeholder="123" disabled required id="idinput"
+                               [(ngModel)]="bufProvider.id" [ngModelOptions]="{standalone: true}">
+                    </div>
+                    <div class="form-group">
+                        <label for="provider">Enter providers:</label>
+                        <input type="text" class="form-control" placeholder=".com" required id="provider"
+                               [(ngModel)]="bufProvider.provider" [ngModelOptions]="{standalone: true}">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button *ngIf="formMode=='add'" type="submit" class="btn btn-primary mb-2" (click)="addProvider()" data-dismiss="modal">
+                         Save
+                    </button>
+                    <button *ngIf="formMode=='edit'" type="submit" class="btn btn-primary mb-2" (click)="updateProvider()" data-dismiss="modal">
+                         Update
+                    </button>
+                    <button type="button" class="btn btn-warning" data-dismiss="modal">
+                         Close
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
